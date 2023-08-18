@@ -12,5 +12,5 @@ def check(request):
     
     #respuesta = [{'nombre': 'Obed'}]
     json_string = json.dumps(resultado)
-    return HttpResponse(json_string)
+    return HttpResponse(request, json_string)
     #return render(request, respuesta)
