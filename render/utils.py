@@ -16,8 +16,9 @@ def obtiene_link(url):
             if ruta is not None and ruta.startswith("https"):    
                 n+=1
                 link_status = check_broken_links(ruta)
-                link_data = {"ruta": ruta, "status": link_status}
-                links_data.append(link_data)
+                if link_status == "broken":
+                    link_data = {"ruta": ruta, "status": link_status}
+                    links_data.append(link_data)
     else:
         print("Error al obtener la página:", response.status_code)
 
@@ -28,9 +29,9 @@ def check_broken_links(url):
     response = requests.get(url)
     try:
         if response.status_code != 200:
-            res = "Broken"
+            res = "broken"
         else:
-            res = "Good"
+            res = "ok"
     except Exception as e:
         print(f"An error occurred: {e}")
     return res
