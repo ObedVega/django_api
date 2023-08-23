@@ -12,7 +12,8 @@ def check(request, url):
     decoded_param = unquote(url) 
     print(decoded_param)
     
-    resultado = obtiene_link('https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html')
+    #resultado = obtiene_link('https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html')
+    resultado = [{'nombre': decoded_param}]
     json_string = json.dumps(resultado)
 
     return HttpResponse(json_string, content_type='application/json')
