@@ -1,37 +1,39 @@
-import requests
+import httpx
 from bs4 import BeautifulSoup
+import asyncio
 
-def obtiene_link(url):
-    response = requests.get(url)
-    n=0
-    link_status = ""
-    links_data = []
+async def check_broken_links_async(session, url):
+    async with httpx.AsyncClient() as session:
+        try:
+            response = await session.get(url)
+            #if response.status_code != 200:
+            return response.status_code  # Devuelve el código de estado
+            #else:
+            #    return "ok"
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return "broken"
 
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, "html.parser")
-        
-        links = soup.find_all("a")
-        for link in links:
-            ruta = link.get("href")
-            if ruta is not None and ruta.startswith("https"):    
-                n+=1
-                link_status = check_broken_links(ruta)
-                if link_status == "broken":
-                    link_data = {"ruta": ruta, "status": link_status}
-                    links_data.append(link_data)
-    else:
-        print("Error al obtener la página:", response.status_code)
+async def obtiene_links(url):
+    async with httpx.AsyncClient() as session:
+        response = await session.get(url)
+        links_data = []
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, "html.parser")
+            links = soup.find_all("a")
+            
+            tasks = []
+            urls = [link.get("href") for link in links if link.get("href") and link.get("href").startswith("https")]
+            for url in urls:
+                tasks.append(check_broken_links_async(session, url))
+
+            results = await asyncio.gather(*tasks)
+
+            for url, status in zip(urls, results):
+                link_data = {"ruta": url, "status": status}
+                links_data.append(link_data)
+        else:
+            print("Error al obtener la página:", response.status_code)
 
     return links_data
-
-def check_broken_links(url):
-    res=""
-    response = requests.get(url)
-    try:
-        if response.status_code != 200:
-            res = "broken"
-        else:
-            res = "ok"
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    return res
