@@ -1,6 +1,7 @@
 import httpx
 from bs4 import BeautifulSoup
 import asyncio
+from urllib.parse import urlparse, urlunparse
 
 async def check_broken_links_async(session, url):
     async with httpx.AsyncClient() as session:
@@ -31,9 +32,27 @@ async def obtiene_links(url):
             results = await asyncio.gather(*tasks)
 
             for url, status in zip(urls, results):
-                link_data = {"ruta": url, "status": status}
-                links_data.append(link_data)
+                if status == 404:
+                    link_data = {"ruta": url, "status": status}
+                    links_data.append(link_data)
         else:
             print("Error al obtener la página:", response.status_code)
 
     return links_data
+
+async def valida_url(url):
+    # Si no empieza con "http://" ni "https://", asumimos que es un subdominio
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+
+    # Parseamos el URL para asegurarnos de que esté bien formateado
+    parsed_url = urlparse(url)
+
+    # Si el esquema es "http://", lo cambiamos a "https://"
+    if parsed_url.scheme == "http":
+        parsed_url = parsed_url._replace(scheme="https")
+
+    # Volvemos a construir el URL en su forma normalizada
+    normalized_url = urlunparse(parsed_url)
+
+    return normalized_url
