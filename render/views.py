@@ -14,8 +14,11 @@ async def check(request, url):
     print(newURL)
     resultado = await obtiene_links(newURL)
     #https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html 
-    if resultado == "":
-        resultado = {"ruta": "We didn't find broken links", "status": "0"}
+    print(resultado)
+    if not resultado:
+        respuestaVacia = {"ruta": "We didn't find broken links", "status": "0"}
+        resultado.append(respuestaVacia)
+        
     json_string = json.dumps(resultado)
 
     return HttpResponse(json_string, content_type='application/json')
