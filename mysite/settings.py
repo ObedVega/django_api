@@ -55,6 +55,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Configuración de CORS
+CORS_ALLOWED_ORIGINS = [
+    "https://obedvega.github.io/broken-links/",
+    # Agrega los dominios permitidos aquí
+]
+
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 

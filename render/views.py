@@ -1,3 +1,5 @@
+from django import api_view, permission_classes
+from django import AllowAny
 from django.shortcuts import render
 import json
 from django.http import HttpResponse
@@ -5,9 +7,12 @@ from .utils import valida_url
 from .utils import obtiene_links
 
 # Create your views here.
+
 def index(request):
     return render(request, 'render/index.html', {})
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
 async def check(request, url):
 
     newURL = await valida_url(url)
@@ -18,7 +23,7 @@ async def check(request, url):
     if not resultado:
         respuestaVacia = {"ruta": "We didn't find broken links", "status": "0"}
         resultado.append(respuestaVacia)
-        
+
     json_string = json.dumps(resultado)
 
     return HttpResponse(json_string, content_type='application/json')
