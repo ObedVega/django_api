@@ -1,5 +1,4 @@
-from django import api_view, permission_classes
-from django import AllowAny
+#from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import render
 import json
 from django.http import HttpResponse
@@ -11,8 +10,7 @@ from .utils import obtiene_links
 def index(request):
     return render(request, 'render/index.html', {})
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
+#@api_view(['GET'])
 async def check(request, url):
 
     newURL = await valida_url(url)

@@ -4,7 +4,7 @@ import asyncio
 from urllib.parse import urlparse, urlunparse
 
 async def check_broken_links_async(session, url):
-    async with httpx.AsyncClient() as session:
+#    async with httpx.AsyncClient() as session:
         try:
             response = await session.get(url)
             #if response.status_code != 200:

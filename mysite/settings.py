@@ -57,7 +57,8 @@ MIDDLEWARE = [
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    "https://obedvega.github.io/broken-links/",
+    'https://obedvega.github.io',
+    'http://localhost:8000',
     # Agrega los dominios permitidos aquí
 ]
 
