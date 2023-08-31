@@ -2,10 +2,7 @@
 from django.shortcuts import render
 import json
 from django.http import HttpResponse
-from .utils import valida_url
-from .utils import obtiene_links
-
-# Create your views here.
+from .utils import valida_url, obtiene_links, revisa_imagenes
 
 def index(request):
     return render(request, 'render/index.html', {})
@@ -14,7 +11,7 @@ def index(request):
 async def check(request, url):
 
     newURL = await valida_url(url)
-    print(newURL)
+
     resultado = await obtiene_links(newURL)
     #https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html 
     print(resultado)
@@ -25,3 +22,16 @@ async def check(request, url):
     json_string = json.dumps(resultado)
 
     return HttpResponse(json_string, content_type='application/json')
+
+#Revisa Imagenes
+async def check_img(request, main_url):
+    newURL = await valida_url(main_url)
+    resultado = await revisa_imagenes(newURL)
+    #print(resultado)
+
+    #respuestaVacia = {"cantidad": resultado}
+#    resultado.append(respuestaVacia)
+# json_data = json.dumps(imagenes_sin_atributos, indent=4)
+#    print(len(resultado))
+    json_string = json.dumps(resultado)
+    return HttpResponse(json_string, content_type='application/json') 
