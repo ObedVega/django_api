@@ -3,18 +3,23 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse
 from .utils import valida_url, obtiene_links, revisa_imagenes
+import requests
 
 def index(request):
     return render(request, 'render/index.html', {})
 
 #@api_view(['GET'])
 async def check(request, url):
-
+    print(url)
     newURL = await valida_url(url)
-
-    resultado = await obtiene_links(newURL)
-    #https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html 
+    print(newURL)
+    rnewURL = requests.head(newURL, allow_redirects=True)
+    print(rnewURL.url)
+    resultado = await obtiene_links(rnewURL.url)
     print(resultado)
+
+    #https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html 
+    
     if not resultado:
         respuestaVacia = {"ruta": "We didn't find broken links", "status": "0"}
         resultado.append(respuestaVacia)
@@ -26,7 +31,10 @@ async def check(request, url):
 #Revisa Imagenes
 async def check_img(request, main_url):
     newURL = await valida_url(main_url)
-    resultado = await revisa_imagenes(newURL)
+    rnewURL = requests.head(newURL, allow_redirects=True)
+    print(rnewURL.url)
+
+    resultado = await revisa_imagenes(rnewURL.url)
     #print(resultado)
 
     #respuestaVacia = {"cantidad": resultado}

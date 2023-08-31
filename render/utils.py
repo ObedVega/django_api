@@ -11,7 +11,8 @@ async def check_broken_links_async(session, url):
         except Exception as e:
             print(f"An error occurred: {e}")
             return "broken"
-
+        
+#Funcion para revisar links
 async def obtiene_links(url):
     async with httpx.AsyncClient() as session:
         response = await session.get(url)
@@ -24,7 +25,6 @@ async def obtiene_links(url):
             urls = [link.get("href") for link in links if link.get("href") and link.get("href").startswith("https")]
 
             for url in urls:
-                print(url)
                 tasks.append(check_broken_links_async(session, url))
 
             results = await asyncio.gather(*tasks)
@@ -42,14 +42,11 @@ async def valida_url(url):
     # Si no empieza con "http://" ni "https://", asumimos que es un subdominio
     if not url.startswith(("http://", "https://")):
         url = "https://" + url
-
     # Parseamos el URL para asegurarnos de que esté bien formateado
     parsed_url = urlparse(url)
-
     # Si el esquema es "http://", lo cambiamos a "https://"
     if parsed_url.scheme == "http":
         parsed_url = parsed_url._replace(scheme="https")
-
     # Volvemos a construir el URL en su forma normalizada
     normalized_url = urlunparse(parsed_url)
 
@@ -57,11 +54,11 @@ async def valida_url(url):
 
 #Funcion para revisar imagenes
 async def revisa_imagenes(main_url):
+    print(main_url)
     async with httpx.AsyncClient() as session:
         response = await session.get(main_url)
         imagenes_sin_atributos = []
         
-        print(response.status_code)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
             img_tags = soup.find_all('img')    
