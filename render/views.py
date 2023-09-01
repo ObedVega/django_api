@@ -10,13 +10,12 @@ def index(request):
 
 #@api_view(['GET'])
 async def check(request, url):
-    print(url)
+ 
     newURL = await valida_url(url)
-    print(newURL)
+ 
     rnewURL = requests.head(newURL, allow_redirects=True)
-    print(rnewURL.url)
+  
     resultado = await obtiene_links(rnewURL.url)
-    print(resultado)
 
     #https://quickstarts.teradata.com/tools-and-utilities/run-bulkloads-efficiently-with-teradata-parallel-transporter.html 
     
@@ -32,7 +31,6 @@ async def check(request, url):
 async def check_img(request, main_url):
     newURL = await valida_url(main_url)
     rnewURL = requests.head(newURL, allow_redirects=True)
-    print(rnewURL.url)
 
     resultado = await revisa_imagenes(rnewURL.url)
     #print(resultado)
