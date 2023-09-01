@@ -59,6 +59,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'https://obedvega.github.io',
     'http://localhost:8000',
+    'https://api.bustedweb.me',
     # Agrega los dominios permitidos aquí
 ]
 
