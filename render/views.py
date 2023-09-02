@@ -29,8 +29,6 @@ async def check(request, url):
 
 #Revisa Imagenes
 async def check_img(request, main_url):
-    ip = request.remote_addr
-    #print(ip)
     newURL = await valida_url(main_url)
     rnewURL = requests.head(newURL, allow_redirects=True)
 
