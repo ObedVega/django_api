@@ -29,6 +29,8 @@ async def check(request, url):
 
 #Revisa Imagenes
 async def check_img(request, main_url):
+    ip = request.remote_addr
+    #print(ip)
     newURL = await valida_url(main_url)
     rnewURL = requests.head(newURL, allow_redirects=True)
 
@@ -39,5 +41,18 @@ async def check_img(request, main_url):
 #    resultado.append(respuestaVacia)
 # json_data = json.dumps(imagenes_sin_atributos, indent=4)
 #    print(len(resultado))
+    json_string = json.dumps(resultado)
+    return HttpResponse(json_string, content_type='application/json') 
+
+async def datos(request, ciudad, estado, pais):
+    print(ciudad, estado, pais)
+    print(estado)
+    print(pais)
+
+    resultado = []
+
+    respuestaVacia = {"ok": "ok"}
+    resultado.append(respuestaVacia)
+
     json_string = json.dumps(resultado)
     return HttpResponse(json_string, content_type='application/json') 

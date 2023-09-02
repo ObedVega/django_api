@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('render.urls')),
     path('check/<path:url>/', include('render.urls')),
     path('img/<path:main_url>/', include('render.urls')),
+    path('data/<str:ciudad>/<str:estado>/<str:pais>/', include('render.urls')),
 ]
