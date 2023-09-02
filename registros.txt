@@ -1,0 +1,2 @@
+ciudad: tijuana, estado: bc, pais: mex
+ciudad: mexicali, estado: bc, pais: mex

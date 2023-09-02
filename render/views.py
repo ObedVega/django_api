@@ -44,6 +44,11 @@ async def check_img(request, main_url):
 
 async def datos(request, ciudad, estado, pais):
     print(ciudad, estado, pais)
+    registro = f"ciudad: {ciudad}, estado: {estado}, pais: {pais}\n"
+
+    archivo_txt = 'registros.txt'
+    with open(archivo_txt, 'a') as archivo:
+        archivo.write(registro)
     
     resultado = []
 
