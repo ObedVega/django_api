@@ -46,9 +46,7 @@ async def check_img(request, main_url):
 
 async def datos(request, ciudad, estado, pais):
     print(ciudad, estado, pais)
-    print(estado)
-    print(pais)
-
+    
     resultado = []
 
     respuestaVacia = {"ok": "ok"}
