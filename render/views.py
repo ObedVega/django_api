@@ -1,7 +1,7 @@
 #from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import render
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .utils import valida_url, obtiene_links, revisa_imagenes
 import requests
 
@@ -57,3 +57,18 @@ async def datos(request, ciudad, estado, pais):
 
     json_string = json.dumps(resultado)
     return HttpResponse(json_string, content_type='application/json') 
+
+def consultar_archivo(request):
+    try:
+        # Ruta al archivo de texto que deseas consultar
+        archivo_txt = 'registros.txt'
+
+        # Abre el archivo en modo lectura y lee su contenido
+        with open(archivo_txt, 'r') as archivo:
+            contenido = archivo.read()
+
+        # Devuelve el contenido como respuesta HTTP
+        return HttpResponse(contenido, content_type='text/plain')
+    except Exception as e:
+        # En caso de error, devuelve una respuesta JSON de error
+        return JsonResponse({'error': str(e)})
