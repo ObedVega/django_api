@@ -61,18 +61,19 @@ async def revisa_imagenes(main_url):
         
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
+            print(soup)
             img_tags = soup.find_all('img')    
 
             for img_tag in img_tags:
                 alt_attr = img_tag.get('alt')
                 title_attr = img_tag.get('title')
 
-                if not alt_attr or not title_attr:
-                    imagen = {
-                        "src": img_tag.get('src'),
-                        "alt": alt_attr,
-                        "title": title_attr
-                    }
-                    imagenes_sin_atributos.append(imagen)
+                #if not alt_attr or not title_attr:
+                imagen = {
+                    "src": img_tag.get('src'),
+                    "alt": alt_attr,
+                    "title": title_attr
+                }
+                imagenes_sin_atributos.append(imagen)
 
     return imagenes_sin_atributos
