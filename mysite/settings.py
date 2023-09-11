@@ -98,7 +98,7 @@ DATABASES = {
        'mongodb': {
         'ENGINE': 'django_mongodb_engine',
         'NAME': 'bustedweb',
-        'HOST': 'mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority',
+        'HOST': 'mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/',
         'PORT': 27017,
     },
 }
