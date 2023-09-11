@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
        'mongodb': {
-        'ENGINE': 'django_mongodb_engine',
+        'ENGINE': 'django.db.backends.mongoDB',
         'NAME': 'bustedweb',
         'HOST': 'mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority',
         'PORT': 27017,
