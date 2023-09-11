@@ -118,11 +118,13 @@ def consultar_archivo(request):
     # Realiza la consulta MongoDB
     resultados = list(collection.find({}))
 
+    for resultado in resultados:
+        resultado['_id'] = str(resultado['_id'])
     # Cierra la conexión a MongoDB
     client.close()
 
     # Convierte los resultados a una lista de diccionarios JSON
-    resultados_json = [resultado for resultado in resultados]
+#    resultados_json = [resultado for resultado in resultados]
 
     # Devuelve los resultados como una respuesta JSON
-    return JsonResponse(resultados_json, safe=False)
+    return JsonResponse(resultados, safe=False)
