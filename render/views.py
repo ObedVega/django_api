@@ -96,16 +96,33 @@ async def datos(request, api, ip, ciudad, estado, pais, loc):
     return HttpResponse("OK", content_type="text/plain", status=200)
 
 def consultar_archivo(request):
-    try:
+
+#    try:
         # Ruta al archivo de texto que deseas consultar
-        archivo_txt = 'registros.txt'
+#        archivo_txt = 'registros.txt'
 
         # Abre el archivo en modo lectura y lee su contenido
-        with open(archivo_txt, 'r') as archivo:
-            contenido = archivo.read()
+#        with open(archivo_txt, 'r') as archivo:
+#            contenido = archivo.read()
 
         # Devuelve el contenido como respuesta HTTP
-        return HttpResponse(contenido, content_type='text/plain')
-    except Exception as e:
+#        return HttpResponse(contenido, content_type='text/plain')
+#    except Exception as e:
         # En caso de error, devuelve una respuesta JSON de error
-        return JsonResponse({'error': str(e)})
+#        return JsonResponse({'error': str(e)})
+    # Conecta a la base de datos MongoDB configurada en settings.py
+    client  = MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
+    db = client['bustedweb']
+    collection = db['locations']
+
+    # Realiza la consulta MongoDB
+    resultados = list(collection.find({}))
+
+    # Cierra la conexión a MongoDB
+    client.close()
+
+    # Convierte los resultados a una lista de diccionarios JSON
+    resultados_json = [resultado for resultado in resultados]
+
+    # Devuelve los resultados como una respuesta JSON
+    return JsonResponse(resultados_json, safe=False)
