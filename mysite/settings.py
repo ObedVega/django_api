@@ -94,6 +94,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    #    'ENGINE': 'django.db.backends.mongoDB',
+    #    'NAME': 'bustedweb',
+    #    'HOST': 'mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority',  # Cambia a la dirección de tu servidor MongoDB
+    #    'PORT': 27017, 
     }
 }
 

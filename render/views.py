@@ -4,6 +4,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from .utils import valida_url, obtiene_links, revisa_imagenes
 import requests
+from pymongo import MongoClient
 
 def index(request):
     return render(request, 'render/index.html', {})
@@ -42,21 +43,52 @@ async def check_img(request, main_url):
     json_string = json.dumps(resultado)
     return HttpResponse(json_string, content_type='application/json') 
 
-async def datos(request, ciudad, estado, pais):
-    print(ciudad, estado, pais)
-    registro = f"{ciudad}, {estado}, {pais}\n"
+async def datos(request, ip, ciudad, estado, pais):
+    print(ip, ciudad, estado, pais)
+    # Configuración de la base de datos desde settings.py
+    db = MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')['bustedweb']
 
-    archivo_txt = 'registros.txt'
-    with open(archivo_txt, 'a') as archivo:
-        archivo.write(registro)
+    # Colección en la que deseas insertar datos
+    collection = db['locations']
+
+    # Datos a insertar
+    ip = ip
+    ciudad = ciudad
+    estado = estado
+    pais = pais
+
+    # Crear un documento
+    documento = {
+        "ip": ip,
+        "ciudad": ciudad,
+        "estado": estado,
+        "pais": pais
+    }
+
+    # Insertar el documento en la colección
+    resultado = collection.insert_one(documento)
+
+    if resultado.inserted_id:
+        print(f"Documento insertado con ID: {resultado.inserted_id}")
+    else:
+        print("La inserción falló")
+
+#        registro = f"{ciudad}, {estado}, {pais}\n"
+
+#        db = connections['default'].get_database()
+#        db = client['nombre_de_tu_base_de_datos']
+#    archivo_txt = 'registros.txt'
+#    with open(archivo_txt, 'a') as archivo:
+#        archivo.write(registro)
     
-    resultado = []
+#    resultado = []
 
-    respuestaVacia = {"ok": "ok"}
-    resultado.append(respuestaVacia)
+#    respuestaVacia = {"ok": "ok"}
+#    resultado.append(respuestaVacia)
 
-    json_string = json.dumps(resultado)
-    return HttpResponse(json_string, content_type='application/json') 
+#    json_string = json.dumps(resultado)
+#    return HttpResponse(json_string, content_type='application/json')  
+    return HttpResponse("OK", content_type="text/plain", status=200)
 
 def consultar_archivo(request):
     try:
