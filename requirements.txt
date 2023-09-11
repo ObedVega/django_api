@@ -11,4 +11,4 @@ django-cors-headers==4.1.0
 httpx==0.24.1
 djangorestframework==3.14.0
 requests==2.26.0
-pymongo==4.0.1
+pymongo==4.0.0
