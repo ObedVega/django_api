@@ -44,13 +44,15 @@ async def check_img(request, main_url):
     return HttpResponse(json_string, content_type='application/json') 
 
 async def datos(request, api, ip, ciudad, estado, pais, loc):
+    print("LLEGE!")
     print(api, ip, ciudad, estado, pais, loc)
+    print("LLEGE!!")
     # Configuración de la base de datos desde settings.py
     db = MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')['bustedweb']
-
+    print("LLEGE!!!")
     # Colección en la que deseas insertar datos
     collection = db['locations']
-
+    print("LLEGE!!!!")
     # Datos a insertar
     api = api
     ip = ip
@@ -58,7 +60,7 @@ async def datos(request, api, ip, ciudad, estado, pais, loc):
     estado = estado
     pais = pais
     loc = loc
-
+    print("LLEGE!!!!!")
 
     # Crear un documento
     documento = {
@@ -69,10 +71,10 @@ async def datos(request, api, ip, ciudad, estado, pais, loc):
         "pais": pais,
         "loc": loc
     }
-
+    print("LLEGE!!!!!!")
     # Insertar el documento en la colección
     resultado = collection.insert_one(documento)
-
+    print("LLEGE!!!!!!")
     if resultado.inserted_id:
         print(f"Documento insertado con ID: {resultado.inserted_id}")
     else:
