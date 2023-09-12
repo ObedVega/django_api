@@ -4,7 +4,12 @@ import json
 from django.http import HttpResponse, JsonResponse
 from .utils import valida_url, obtiene_links, revisa_imagenes
 import requests
-from pymongo import MongoClient
+import pymongo
+
+# Configura la conexión a MongoDB
+client = pymongo.MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
+db = client['bustedweb']
+collection = db['locations'] 
 
 def index(request):
     return render(request, 'render/index.html', {})
@@ -43,15 +48,14 @@ async def check_img(request, main_url):
     json_string = json.dumps(resultado)
     return HttpResponse(json_string, content_type='application/json') 
 
+
 async def datos(request, api, ip, ciudad, estado, pais, loc):
     print("LLEGE1")
     print(api, ip, ciudad, estado, pais, loc)
     print("LLEGE2")
-    # Configuración de la base de datos desde settings.py
-    client  = MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
-    db = client['bustedweb']
+
     print("LLEGE3")
-    collection = db['locations']
+  
     print("LLEGE4")
     # Datos a insertar
     api = api
@@ -74,6 +78,7 @@ async def datos(request, api, ip, ciudad, estado, pais, loc):
     print("LLEGE6")
     # Insertar el documento en la colección
     resultado = collection.insert_one(documento)
+ 
     print("LLEGE7")
     if resultado.inserted_id:
         print(f"Documento insertado con ID: {resultado.inserted_id}")
