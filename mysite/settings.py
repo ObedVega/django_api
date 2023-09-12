@@ -94,7 +94,16 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+       'mongodb': {
+        'ENGINE': 'djongo',
+        'NAME': 'bustedweb',
+        'ENFORCE_SCHEMA': True, 
+        'CLIENT': {
+            'host': 'mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority',
+            # Otras opciones de configuración del cliente MongoDB
+        }
+    },
 }
 
 
