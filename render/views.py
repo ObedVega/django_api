@@ -103,7 +103,9 @@ async def datos(request, api, ip, ciudad, estado, pais, loc):
     return HttpResponse("OK", content_type="text/plain", status=200)
 
 def consultar_archivo(request):
-
+    client = pymongo.MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
+    db = client['bustedweb']
+    collection = db['locations'] 
 #    try:
         # Ruta al archivo de texto que deseas consultar
 #        archivo_txt = 'registros.txt'
