@@ -118,9 +118,7 @@ def consultar_archivo(request):
         # En caso de error, devuelve una respuesta JSON de error
 #        return JsonResponse({'error': str(e)})
     # Conecta a la base de datos MongoDB configurada en settings.py
-    client  = MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
-    db = client['bustedweb']
-    collection = db['locations']
+
 
     # Realiza la consulta MongoDB
     resultados = list(collection.find({}))
