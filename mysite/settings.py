@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
        'mongodb': {
-        'ENGINE': 'django.db.backends.djongo',
+        'ENGINE': 'djongo',
         'NAME': 'bustedweb',
         'ENFORCE_SCHEMA': True, 
     },
