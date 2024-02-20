@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from .utils import valida_url, obtiene_links, revisa_imagenes
 import requests
 import pymongo
+from django.views.decorators.http import require_POST
 
 # Configura la conexión a MongoDB
 client = pymongo.MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
@@ -135,3 +136,35 @@ def consultar_archivo(request):
 
     # Devuelve los resultados como una respuesta JSON
     return JsonResponse(resultados, safe=False)
+
+def db_connect():
+    """
+    Función para conectar a la base de datos MongoDB y obtener la colección 'usuarios'.
+    """
+    # Conexión a la base de datos
+    client = pymongo.MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/saldi_shop?retryWrites=true&w=majority')
+    db = client['saldi_shop']
+    collection = db['usuarios']
+    
+    return collection
+
+@require_POST
+async def registro(request):
+    try:
+        collection = db_connect()
+
+        if 'email' in request.POST and 'password' in request.POST:
+            email = request.POST['email']
+            password = request.POST['password']
+
+            new_user = {
+                    'email': email,
+                    'password': password
+                }
+            collection.insert_one(new_user)
+            
+            return JsonResponse({'message':'Usuario creado correctamente'}, status=201)
+        else:
+            return JsonResponse({'error': 'Se requieren email y contraseña en la solicitud'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
