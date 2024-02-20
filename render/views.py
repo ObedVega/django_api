@@ -153,7 +153,7 @@ async def registro(request):
     try:
         collection = db_connect()
         data = json.loads(request.body.decode('utf-8'))
-        if 'email' in request.POST and 'password' in request.POST:
+        if 'email' in data and 'password' in data:
             email = data['email']
             password = data['password']
 
