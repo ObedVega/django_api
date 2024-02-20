@@ -152,17 +152,18 @@ def db_connect():
 async def registro(request):
     try:
         collection = db_connect()
-
+        data = json.loads(request.body.decode('utf-8'))
         if 'email' in request.POST and 'password' in request.POST:
-            email = request.POST['email']
-            password = request.POST['password']
+            email = data['email']
+            password = data['password']
 
             new_user = {
                     'email': email,
                     'password': password
                 }
             collection.insert_one(new_user)
-            
+            client.close()
+
             return JsonResponse({'message':'Usuario creado correctamente'}, status=201)
         else:
             return JsonResponse({'error': 'Se requieren email y contraseña en la solicitud'}, status=400)
