@@ -6,6 +6,7 @@ from .utils import valida_url, obtiene_links, revisa_imagenes
 import requests
 import pymongo
 from django.views.decorators.http import require_POST
+from django.middleware.csrf import get_token
 
 # Configura la conexión a MongoDB
 client = pymongo.MongoClient('mongodb+srv://saldi:Saldi_1.0@saldi.y8swx.mongodb.net/bustedweb?retryWrites=true&w=majority')
@@ -153,6 +154,7 @@ async def registro(request):
     try:
         collection = db_connect()
         data = json.loads(request.body.decode('utf-8'))
+        print(data)
         if 'email' in data and 'password' in data:
             email = data['email']
             password = data['password']
@@ -164,8 +166,15 @@ async def registro(request):
             collection.insert_one(new_user)
             client.close()
 
-            return JsonResponse({'message':'Usuario creado correctamente'}, status=201)
+            response = JsonResponse({'message':'Usuario creado correctamente'}, status=201)
+            response['Access-Control-Allow-Origin'] = 'http://localhost:5173'  # Permitir solicitudes desde localhost:5173
+            return response
         else:
             return JsonResponse({'error': 'Se requieren email y contraseña en la solicitud'}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+def obtener_token_csrf(request):
+    csrf_token = get_token(request)
+    # Puedes pasar csrf_token al contexto de la plantilla o incluirlo en la respuesta JSON
+    return JsonResponse({'csrf_token': csrf_token})

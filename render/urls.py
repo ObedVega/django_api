@@ -9,5 +9,5 @@ urlpatterns = [
     path('data/<str:api>/<str:ip>/<str:ciudad>/<str:estado>/<str:pais>/<str:loc>/', views.datos, name='datos'),
     path('datos/', views.consultar_archivo, name='consultar_archivo'),
     path('register/', views.registro, name='registro'),
-
+    path('get-token-csrf/', views.obtener_token_csrf, name='obtener_token_csrf'),
 ]
